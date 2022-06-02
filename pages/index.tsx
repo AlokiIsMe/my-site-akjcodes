@@ -6,6 +6,7 @@ import { GetServerSideProps, NextPage } from "next";
 import { FunctionComponent } from "react";
 import Image from "next/image";
 import {prisma} from "@services/global";
+import { getLatestBlog } from "./api/Blog/addBlog";
 
 function JumpBroton() {
   return <Box sx={{
@@ -15,21 +16,14 @@ function JumpBroton() {
   </Box>
 }
 
-// export const getServerSideProps:GetServerSideProps = async ()=>{
-//   const latestBlog = await (prisma?.article.findMany({
-//     orderBy:{
-//       createdAt:"desc"
-//     }
-//   }))
-//   const blogTags = await prisma?.article.findFirst().tags();
-//   return {
-//     props:{
-//       //@ts-ignore
-//       blog:JSON.stringify(latestBlog[0]),
-//       tags:JSON.stringify(blogTags),
-//     }
-//   }
-// }
+export const getServerSideProps:GetServerSideProps = async ()=>{
+  const latestBlog = await getLatestBlog();
+  return {
+    props:{
+      blog:JSON.stringify(latestBlog),
+    }
+  }
+}
 
 
 function Announcement(){
@@ -55,14 +49,14 @@ const LatestPost:FunctionComponent<{title:string,createdAt:string,id:string,tags
   </>
 }
 //blog:string,tags:string
-const Home: NextPage<{}> = (props) => {
-  // const blog:Article = JSON.parse(props.blog);
+const Home: NextPage<{blog:string}> = (props) => {
+  const blog:Article & {tags:Tag[]} = JSON.parse(props.blog);
   // const tags:Tag[]= JSON.parse(props.tags)
   return <>
     <CHeader title="AKJCodes" desc="Blog Page" />
     <JumpBroton/>
     <Announcement/>
-    {/* <LatestPost {...blog} createdAt={new Date(blog.createdAt).toDateString()} tags={tags}/> */}
+    <LatestPost {...blog} createdAt={new Date(blog.createdAt).toDateString()} tags={blog.tags}/>
   </>
 }
 
