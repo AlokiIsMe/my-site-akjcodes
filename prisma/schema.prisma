@@ -1,0 +1,59 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = ["native","debian-openssl-1.1.x"]
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User{
+  id Int @default(autoincrement()) @id
+  username String @unique
+  firstName String
+  lastName String
+  email String
+
+  createdAt DateTime @default(now())
+  password String
+
+  comments Comment[]
+  blogs Article[]
+}
+
+model Article{
+  id String @id @default(cuid())
+  createdAt DateTime @default(now())
+  
+  content String //@db.text
+  title String //@db.text
+
+  desc String
+
+  user User @relation(fields: [username], references: [username])
+  username String
+  comments Comment[]
+  tags Tag[]
+}
+
+model Tag{
+  name String @id @unique
+  blogs Article[]
+}
+
+model Comment{
+  id String @id @default(cuid())
+  createdAt DateTime
+  content String
+  
+  user User @relation(fields: [username], references: [username])
+  username String
+
+  blog Article @relation(fields: [blogId], references: [id])
+  blogId String
+}
+
