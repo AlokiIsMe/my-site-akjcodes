@@ -6,7 +6,7 @@ import { GetServerSideProps, NextPage } from "next";
 import { FunctionComponent } from "react";
 import Image from "next/image";
 import {prisma} from "@services/global";
-import { getLatestBlog } from "./api/Blog/addBlog";
+import { ServerAPI } from "consts/Variables";
 
 function JumpBroton() {
   return <Box sx={{
@@ -17,10 +17,11 @@ function JumpBroton() {
 }
 
 export const getServerSideProps:GetServerSideProps = async ()=>{
-  const latestBlog = await getLatestBlog();
+  const latestBlog = await (await fetch(ServerAPI("/api/Blog/getLatestBlog"))).json();
+  console.log(latestBlog);
   return {
     props:{
-      blog:JSON.stringify(latestBlog),
+      blog:JSON.stringify(latestBlog.article),
     }
   }
 }

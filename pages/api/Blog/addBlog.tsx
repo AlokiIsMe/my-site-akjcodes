@@ -12,18 +12,6 @@ type Data = {
     type: string
 };
 
-export const getLatestBlog = async () => {
-    const blog = await prisma?.article.findMany({
-        orderBy: {
-            createdAt: "desc"
-        },
-        include:{
-            tags:true
-        }
-    });
-    //@ts-ignore
-    return blog[0];
-}
 
 export default async function handler(
     req: NextApiRequest,
