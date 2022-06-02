@@ -15,21 +15,21 @@ function JumpBroton() {
   </Box>
 }
 
-export const getServerSideProps:GetServerSideProps = async ()=>{
-  const latestBlog = await (prisma?.article.findMany({
-    orderBy:{
-      createdAt:"desc"
-    }
-  }))
-  const blogTags = await prisma?.article.findFirst().tags();
-  return {
-    props:{
-      //@ts-ignore
-      blog:JSON.stringify(latestBlog[0]),
-      tags:JSON.stringify(blogTags),
-    }
-  }
-}
+// export const getServerSideProps:GetServerSideProps = async ()=>{
+//   const latestBlog = await (prisma?.article.findMany({
+//     orderBy:{
+//       createdAt:"desc"
+//     }
+//   }))
+//   const blogTags = await prisma?.article.findFirst().tags();
+//   return {
+//     props:{
+//       //@ts-ignore
+//       blog:JSON.stringify(latestBlog[0]),
+//       tags:JSON.stringify(blogTags),
+//     }
+//   }
+// }
 
 
 function Announcement(){
@@ -54,14 +54,15 @@ const LatestPost:FunctionComponent<{title:string,createdAt:string,id:string,tags
     <BlogShower {...props}/>
   </>
 }
-const Home: NextPage<{blog:string,tags:string}> = (props) => {
-  const blog:Article = JSON.parse(props.blog);
-  const tags:Tag[]= JSON.parse(props.tags)
+//blog:string,tags:string
+const Home: NextPage<{}> = (props) => {
+  // const blog:Article = JSON.parse(props.blog);
+  // const tags:Tag[]= JSON.parse(props.tags)
   return <>
     <CHeader title="AKJCodes" desc="Blog Page" />
     <JumpBroton/>
     <Announcement/>
-    <LatestPost {...blog} createdAt={new Date(blog.createdAt).toDateString()} tags={tags}/>
+    {/* <LatestPost {...blog} createdAt={new Date(blog.createdAt).toDateString()} tags={tags}/> */}
   </>
 }
 
