@@ -1,6 +1,6 @@
 import BlogShower from "@components/BlogComponents/BlogShower";
 import { CTitle, CHeader } from "@components/Components";
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { Tag, Article } from "@prisma/client";
 import { GetServerSideProps, NextPage } from "next";
 import { FunctionComponent } from "react";
@@ -16,15 +16,15 @@ function JumpBroton() {
   </Box>
 }
 
-export const getServerSideProps:GetServerSideProps = async ()=>{
-  const latestBlog = await (await fetch(ServerAPI("/api/Blog/getLatestBlog"))).json();
-  console.log(latestBlog);
-  return {
-    props:{
-      blog:JSON.stringify(latestBlog.article),
-    }
-  }
-}
+// export const getServerSideProps:GetServerSideProps = async ()=>{
+//   const latestBlog = await (await fetch(ServerAPI("/api/Blog/getLatestBlog"))).json();
+//   console.log(latestBlog);
+//   return {
+//     props:{
+//       blog:JSON.stringify(latestBlog.article),
+//     }
+//   }
+// }
 
 
 function Announcement(){
@@ -51,13 +51,17 @@ const LatestPost:FunctionComponent<{title:string,createdAt:string,id:string,tags
 }
 //blog:string,tags:string
 const Home: NextPage<{blog:string}> = (props) => {
-  const blog:Article & {tags:Tag[]} = JSON.parse(props.blog);
+  // const blog:Article & {tags:Tag[]} = JSON.parse(props.blog);
   // const tags:Tag[]= JSON.parse(props.tags)
   return <>
     <CHeader title="AKJCodes" desc="Blog Page" />
     <JumpBroton/>
     <Announcement/>
-    <LatestPost {...blog} createdAt={new Date(blog.createdAt).toDateString()} tags={blog.tags}/>
+    <Button onClick={async ()=>{
+      const json = await (await fetch(ServerAPI("/api/Blog/getLatestBlog"))).json();
+      console.log(json);
+    }}>Click!</Button>
+    {/* <LatestPost {...blog} createdAt={new Date(blog.createdAt).toDateString()} tags={blog.tags}/> */}
   </>
 }
 
