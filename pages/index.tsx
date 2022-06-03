@@ -16,15 +16,15 @@ function JumpBroton() {
   </Box>
 }
 
-// export const getServerSideProps:GetServerSideProps = async ()=>{
-//   const latestBlog = await (await fetch(ServerAPI("/api/Blog/getLatestBlog"))).json();
-//   console.log(latestBlog);
-//   return {
-//     props:{
-//       blog:JSON.stringify(latestBlog.article),
-//     }
-//   }
-// }
+export const getServerSideProps:GetServerSideProps = async ()=>{
+  // const latestBlog = await (await fetch(ServerAPI("/api/Blog/getLatestBlog"))).json();
+  // console.log(latestBlog);
+  console.log("test!");
+  return {
+    props:{
+    }
+  }
+}
 
 
 function Announcement(){
@@ -58,8 +58,9 @@ const Home: NextPage<{blog:string}> = (props) => {
     <JumpBroton/>
     <Announcement/>
     <Button onClick={async ()=>{
-      const json = await (await fetch("./api/Blog/getLatestBlog")).json();
+      const json = await (await fetch (ServerAPI("/api/Blog/getLatestBlog"))).json();
       console.log(json);
+      
     }}>Click!</Button>
     {/* <LatestPost {...blog} createdAt={new Date(blog.createdAt).toDateString()} tags={blog.tags}/> */}
   </>
