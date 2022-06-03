@@ -58,7 +58,7 @@ const Home: NextPage<{blog:string}> = (props) => {
     <JumpBroton/>
     <Announcement/>
     <Button onClick={async ()=>{
-      const json = await (await fetch(ServerAPI("/api/Blog/getLatestBlog"))).json();
+      const json = await (await fetch("./api/Blog/getLatestBlog")).json();
       console.log(json);
     }}>Click!</Button>
     {/* <LatestPost {...blog} createdAt={new Date(blog.createdAt).toDateString()} tags={blog.tags}/> */}
