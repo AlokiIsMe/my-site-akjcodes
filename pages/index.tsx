@@ -19,7 +19,7 @@ function JumpBroton() {
 export const getServerSideProps:GetServerSideProps = async ()=>{
   // const latestBlog = await (await fetch(ServerAPI("/api/Blog/getLatestBlog"))).json();
   // console.log(latestBlog);
-  console.log("test!");
+  console.log("Test ");
   return {
     props:{
     }
